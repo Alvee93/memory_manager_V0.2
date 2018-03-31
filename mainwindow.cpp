@@ -7,6 +7,8 @@
 #include <QSqlRecord>
 #include <QDebug>
 
+#include <QMessageBox>
+
 QString folderPath, absFilePath;
 static const QString path = "m_managerV01.sqlite";
 DbManager db(path);
@@ -68,12 +70,14 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
 
 void MainWindow::on_pushButton_clicked()
 {
-    ui -> tabWidget->setCurrentIndex(1);
     // here the exif extractor will perform its work!!!
-    db.createTable();
 
     if(!absFilePath.isEmpty())
         {
+            ui -> tabWidget->setCurrentIndex(1);
+
+            db.createTable();
+
             extract_exif(absFilePath);
 
             show_image_metadata();
@@ -81,6 +85,10 @@ void MainWindow::on_pushButton_clicked()
             show_image_result();
 
             show_comboBox();
+    }
+
+    else{
+        QMessageBox::information(this, tr("Important"), tr("Please select an image first and then add it to library."));
     }
 }
 
@@ -275,8 +283,9 @@ void MainWindow::extract_exif(QString imgPath)
 }
 
 
-void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
+void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1) //const QString &arg1
 {
+    QString a=arg1;
     QSqlQueryModel *modal = new QSqlQueryModel;
     QSqlQuery query;
     bool success = false;
