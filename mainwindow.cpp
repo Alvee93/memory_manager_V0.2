@@ -10,7 +10,7 @@
 #include <QMessageBox>
 
 QString folderPath, absFilePath;
-static const QString path = "m_managerV01.sqlite";
+static const QString path = "m_managerV03.sqlite";
 DbManager db(path);
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     fileModel->setNameFilters(filters);
     fileModel -> setNameFilterDisables(false);
     ui->listView->setModel(fileModel);
+
+    db.createTable();
 
     show_comboBox();
 }
@@ -70,14 +72,11 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
 
 void MainWindow::on_pushButton_clicked()
 {
-    // here the exif extractor will perform its work!!!
-
     if(!absFilePath.isEmpty())
         {
             ui -> tabWidget->setCurrentIndex(1);
 
-            db.createTable();
-
+            // here the exif extractor will perform its work!!!
             extract_exif(absFilePath);
 
             show_image_metadata();
@@ -88,7 +87,7 @@ void MainWindow::on_pushButton_clicked()
     }
 
     else{
-        QMessageBox::information(this, tr("Important"), tr("Please select an image first and then add it to library."));
+        QMessageBox::information(this, tr("Important notice"), tr("Please select an image first and then add it to library."));
     }
 }
 

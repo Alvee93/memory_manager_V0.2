@@ -8,7 +8,7 @@ QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Qt45MemoryManager_V01
+TARGET = Qt45MemoryManager_V03
 TEMPLATE = app
 
 

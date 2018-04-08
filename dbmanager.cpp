@@ -106,6 +106,9 @@ int DbManager::addImg(const QString& img, const QString& make, const QString& mo
             qDebug() << "Add image failed: " << queryAdd.lastError();
         }
     }
+    else if(imgExists(img)){
+        qDebug() << "Add image failed: image already exists";
+    }
     else
     {
         qDebug() << "Add image failed: name cannot be empty";
